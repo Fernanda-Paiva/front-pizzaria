@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
+
  
 import MenuFuncionario from "../MenuFuncionario/MenuFuncionario"
+import CredentialUser from "../../components/CredentialUser"
 import api from "../../services/api"
  
 const NovoProduto = () => {
@@ -39,17 +41,18 @@ const NovoProduto = () => {
         }
  
         try {
-            const response = await api.post("/produtos", produto)
- 
+            const response = await api.post("/produtos", produto, {
+                 "Content-Type" : "application/json"
+            })
             alert(`${response.data.data.nome} cadastrado com sucesso!`)
- 
+            // Limpando os campos
             setNome("")
             setPrecoVenda("")
             setDescricao("")
             setCategoriaId("")
  
         } catch (error) {
-            console.error(`Não foi possível salvar o produto`, error)
+            console.error(`Não foi possível salvar o produto ${error}`)
         }
     }
  
@@ -57,6 +60,7 @@ const NovoProduto = () => {
         <div className="container">
  
             <MenuFuncionario />
+            <CredentialUser title="Cadastro de produto"/>
  
             <form onSubmit={enviarProduto} className="container-fluid p-4">
  
@@ -93,7 +97,7 @@ const NovoProduto = () => {
                         onChange={(e) => setDescricao(e.target.value)}
                         rows="3"
                         required
-                    />
+                    ></textarea>
                 </div>
  
                 <div className="mb-3">
