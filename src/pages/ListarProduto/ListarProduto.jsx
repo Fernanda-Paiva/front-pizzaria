@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 import MenuFuncionario from "../MenuFuncionario/MenuFuncionario"
 import CredentialUser from "../../components/CredentialUser"
@@ -9,9 +9,9 @@ import api from "../../services/api"
 
 const ListarProduto = () => {
 
-   // useState: é um hook do React que serve para armazenar e controlar o estado de um componente (variáveis)
+  // useState: é um hook do React que serve para armazenar e controlar o estado de um componente (variáveis)
   //           ele permite que você declare variáveis que lembram valores entre renderizações do componente
- 
+
   // Composição [nome da variável, função para alterar o valor da variável] = (valor inicial da variável)
   // Exemplo: Quero declarar uma variável numero cujo valor inicie com 0
   // const [numero, setNumero] = useState(0)
@@ -22,17 +22,19 @@ const ListarProduto = () => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [idProdutoAExcluir, setIdProdutoAExcluir] = useState(null)
 
- // useEffect: é um hook do React que serve para executar códigos que ficam fora do controle direito da renderização
+  const navigate = useNavigate();
+
+  // useEffect: é um hook do React que serve para executar códigos que ficam fora do controle direito da renderização
   // visual, os chamados "efeitos colaterais"
   // Exemplo: buscar dados de uma API, configurar cronometros, fazer algo quando o usuário aperta uma tecla,
   //          aplicar o Modo Escuro na página
- 
+
   // Em nossa página, vamos utilizar para acessar a API-BACK END e carregar nossa tabela de produtos toda vez
   // que a página for carregada.
- 
+
   // useEffect ( função que será executava, [quando esse valor for alterado a função é chamada novamente] )
   // Obs: [] manter vazio, quando você quiser o seu código rode exatamente uma única vez, logo após o componente
-  //      aparecer na tela pela primeira vez
+  // aparecer na tela pela primeira vez
   // Resumindo []: Execute isso quando a página carregar e depois "ignore", importa o que mude na tela!
   useEffect(() => {
 
@@ -51,7 +53,7 @@ const ListarProduto = () => {
 
   }, [])
 
-  
+
   const openModal = (id) => {
     setIdProdutoAExcluir(id)
     setIsModalOpen(true)
@@ -119,9 +121,6 @@ const ListarProduto = () => {
 
               <tr key={produto.id}>
 
-              {/*numero */}
-              <td style={{fontSize: " 13px "}}>{produto.codigo}</td>
-
                 {/* Nome */}
                 <td style={{ fontSize: "13px" }}>
                   {produto.nome}
@@ -151,6 +150,9 @@ const ListarProduto = () => {
                   {/* Botão de Editar */}
                   <button
                     className="btn btn-sm btn-primary me-2"
+                    onClick={() =>
+                      navigate(`/produtos/editar/${produto.id}`)
+                    }
                   >
                     <i className="fas fa-pencil-alt"></i>
                   </button>
